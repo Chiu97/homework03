@@ -17,12 +17,7 @@ public class UserController {
 
     @GetMapping("/user/{uname}")
     public User getUser( @PathVariable("uname") String uname){
-        List<User> users = userRepository.findAll();
-        for (int i = 0;i<users.size();i++){
-            if (users.get(i).getUname().equals(uname)){
-                return users.get(i);
-            }
-        }
+
         return null;
     }
 
