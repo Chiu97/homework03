@@ -30,7 +30,7 @@ public class EmployeeController {
         //classpath: /templates/emp/list.html
         return "emp/list";
     }
-/*
+
     //员工添加页面
     @GetMapping("/emp")
     public String toAddPage(){
@@ -41,10 +41,9 @@ public class EmployeeController {
     //员工添加
     @PostMapping("/emp")
     public String addEmp(Employee employee){
-        //来到员工l列表页面
-        employee.setDepartment("ehia");
+        //来到员工id列表表页面
         System.out.println(employee);
-        employeeDao.save(employee);
+        employeeRepository.save(employee);
         //redirect 重定向地址
         //forward 转发地址
         return "redirect:/main";
@@ -53,7 +52,7 @@ public class EmployeeController {
     //到修改页面，查出当前员工，在页面回显
     @GetMapping("/emp/{id}")
     public String toEditPage(@PathVariable("id") Integer id,Model model){
-        Employee e = employeeDao.get(id);
+        Employee e = employeeRepository.findOne(id);
         model.addAttribute("emp",e);
         //回到修改页面（add是一个修改添加2合1的）
         return "/emp/add";
@@ -62,13 +61,12 @@ public class EmployeeController {
     //员工修改
     @PutMapping("/emp")
     public  String updateEmployee(Employee employee){
-        employee.setDepartment(new Department(101, "D-AA"));
 //        System.out.println(employee);
         logger.info("修改");
-        employeeDao.save(employee);
+        employeeRepository.save(employee);
         return "redirect:/main";
     }
-*/
+
     //员工删除
     @DeleteMapping("/emp/{id}")
     public String deleteEmployee(@PathVariable("id") Integer id){

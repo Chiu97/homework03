@@ -60,7 +60,7 @@
             <td>[[${emp.name}]]</td>
             <td th:text="${emp.age}"></td>
             <td th:text="${emp.sex}==0?'女':'男'"></td>
-            <td th:text="${#dates.format(emp.birth,'yyyy-MM-dd')}"></td>
+            <td th:text="${#dates.format(emp.birth,'yyyy/MM/dd')}"></td>
             <td th:text="${emp.phone}"></td>
             <td>
                 <a class="btn btn-sm btn-primary" th:href="@{'/emp/'+${emp.id}}" >编辑</a>
