@@ -68,13 +68,13 @@ public class EmployeeController {
         employeeDao.save(employee);
         return "redirect:/main";
     }
-
+*/
     //员工删除
     @DeleteMapping("/emp/{id}")
     public String deleteEmployee(@PathVariable("id") Integer id){
-        employeeDao.delete(id);
+        employeeRepository.delete(id);
         logger.info("删除");
         return "redirect:/main";
     }
-    */
+
 }
