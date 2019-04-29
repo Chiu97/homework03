@@ -1,7 +1,6 @@
 package com.bjtu.homework03.controller;
 
-import com.bjtu.homework03.entity.User;
-import com.bjtu.homework03.repository.UserRepository;
+import com.bjtu.homework03.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -30,7 +28,7 @@ public class LoginController {
     }
 
     @Autowired
-    UserRepository userRepository;
+    LoginService loginService;
 
     @PostMapping
     @RequestMapping("user/loginPost")
@@ -38,24 +36,17 @@ public class LoginController {
                             @RequestParam("upwd") String upwd,
                             Map<String, Object> map,
                             HttpSession session) {
-
-        List<User> users = userRepository.findAll();
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUname().equals(uname) && users.get(i).getUpwd().equals(upwd)) {
-                //登陆成功
-                logger.info("login ok");
-                session.setAttribute("loginUser", uname);
-                return "redirect:/main";//重定向到页面，而不是使用/user/loginPost链接
-            }
+        if (loginService.Login(uname, upwd)) {
+            //登陆成功
+            logger.info("login ok");
+            session.setAttribute("loginUser", uname);
+            return "redirect:/main";//重定向到页面，而不是使用/user/loginPost链接
+        } else {
+            //登录失败
+            logger.info("login not ok");
+            map.put("msg", "用户名密码错误");
+            //返回的页面  login.html
+            return "redirect:/";
         }
-
-        //登录失败
-        logger.info("login not ok");
-        map.put("msg", "用户名密码错误");
-        //返回的页面  login.html
-        return "redirect:/";
-
     }
-
-
 }
