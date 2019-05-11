@@ -1,7 +1,5 @@
 package com.bjtu.homework03.entity;
 
-import com.sun.corba.se.spi.presentation.rmi.IDLNameTranslator;
-import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
 import java.util.Date;

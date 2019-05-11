@@ -2,6 +2,7 @@ package com.bjtu.homework03.controller;
 
 import com.bjtu.homework03.entity.Employee;
 import com.bjtu.homework03.repository.EmployeeRepository;
+import com.google.common.util.concurrent.RateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.List;
 @Controller
 public class EmployeeController {
     Logger logger = LoggerFactory.getLogger(getClass());
+    private final static RateLimiter limiter = RateLimiter.create(0.1);
+
     //注入
     @Autowired
     EmployeeRepository employeeRepository;
@@ -22,6 +25,7 @@ public class EmployeeController {
     //查询所有员工
     @GetMapping("/emps")
     public String list(Model model){
+        limiter.acquire();
         List<Employee> employees = employeeRepository.findAll();
         //放到请求域中
         model.addAttribute("emps",employees);
