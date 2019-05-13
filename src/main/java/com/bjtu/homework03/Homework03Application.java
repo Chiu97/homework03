@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.EnableCaching;
 // 2.可以不登陆输出URL直接访问用户列表
 // 3.Hateoas
 // 4.Oauth2
+// 5.使用多数据源
 @MapperScan("com.bjtu.homework03.mapper")
 @SpringBootApplication
 @EnableCaching
