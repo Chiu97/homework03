@@ -6,10 +6,14 @@ import com.google.common.util.concurrent.RateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -35,6 +39,17 @@ public class EmployeeController {
         return "emp/list";
     }
 
+
+    //Pagination
+    @GetMapping("/emps/limits={limit}")
+    public String list(@PathVariable("limit") int limit,Model model){
+        limiter.acquire();
+        List<Employee> employees = employeeRepository.findAll(new PageRequest(0, limit)).getContent();
+        model.addAttribute("emps",employees);
+        return "emp/list";
+    }
+
+
     //员工添加页面
     @GetMapping("/emp")
     public String toAddPage(){
@@ -45,6 +60,7 @@ public class EmployeeController {
     //员工添加
     @PostMapping("/emp")
     public String addEmp(Employee employee){
+        limiter.acquire();
         //来到员工id列表表页面
         System.out.println(employee);
         employeeRepository.save(employee);
@@ -61,6 +77,7 @@ public class EmployeeController {
         //回到修改页面（add是一个修改添加2合1的）
         return "/emp/add";
     }
+
 
     //员工修改
     @PutMapping("/emp")
